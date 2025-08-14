@@ -1,0 +1,106 @@
+[Start]
+   │
+   ▼
+[1. יצירת פרויקט/Namespace]
+oc new-project my-app
+   │
+   ▼
+[2. יצירת Deployment + Pod + Service מה-DockerHub Image]
+oc new-app docker.io/username/my-image:latest --name=my-app
+   │
+   ▼
+[3. בדיקת הפודים]
+oc get pods
+   │
+   ▼
+[4. יצירת Route לחשיפת השירות החיצוני]
+oc expose service my-app
+   │
+   ▼
+[5. בדיקת השירותים וה-Routes]
+oc get svc
+oc get routes
+   │
+   ▼
+[6. סקיילינג של הפודים (מספר רפליקות)]
+oc scale --replicas=3 deployment/my-app
+   │
+   ▼
+[7. בדיקת לוגים של הפודים]
+oc logs my-app-xxxxx
+   │
+   ▼
+[8. שינוי Image (Rolling Update)]
+oc set image deployment/my-app my-app=docker.io/username/my-new-image:latest
+   │
+   ▼
+[9. כניסה אינטראקטיבית לפוד]
+oc rsh my-app-xxxxx
+   │
+   ▼
+[10. יצירת PVC לאחסון קבוע]
+oc create pvc my-app-pvc --storage=1Gi
+oc set volume deployment/my-app --add --name=my-volume --mount-path=/data --claim-name=my-app-pvc
+   │
+   ▼
+[11. בדיקות נוספות ואופטימיזציה]
+oc get all
+oc port-forward pod/my-app-xxxxx 8080:80
+   │
+   ▼
+[End – אפליקציה רצה, חשופה, עם אחסון וסקיילינג]
+
+
+
+
+[Start]
+   │
+   ▼
+[1. יצירת קלאסטר OpenShift]
+crc setup / crc start
+oc login -u kubeadmin -p <password> https://api.crc.testing:6443
+   │
+   ▼
+[2. יצירת פרויקט (Namespace)]
+oc new-project my-app
+   │
+   ▼
+[3. יצירת Deployment מה-Docker Image]
+oc create deployment my-app --image=docker.io/username/my-image:latest
+   │
+   ▼
+[4. בדיקת הפודים]
+oc get pods
+   │
+   ▼
+[5. יצירת Service פנימי]
+oc expose deployment my-app --port=80 --target-port=8080 --name=my-app-service
+   │
+   ▼
+[6. יצירת Route (גישה חיצונית)]
+oc expose service my-app-service
+   │
+   ▼
+[7. סקיילינג של Deployment]
+oc scale deployment/my-app --replicas=3
+   │
+   ▼
+[8. בדיקת לוגים של הפוד]
+oc logs pod/my-app-xxxxx
+   │
+   ▼
+[9. עדכון Image (Rolling Update)]
+oc set image deployment/my-app my-app=docker.io/username/my-new-image:latest
+   │
+   ▼
+[10. יצירת Persistent Volume Claim (PVC)]
+oc create pvc my-app-pvc --storage=1Gi
+oc set volume deployment/my-app --add --name=my-volume --mount-path=/data --claim-name=my-app-pvc
+   │
+   ▼
+[11. בדיקות נוספות ואופטימיזציה]
+oc get all
+oc port-forward pod/my-app-xxxxx 8080:80
+   │
+   ▼
+[End – אפליקציה רצה, חשופה, עם אחסון וסקיילינג]
