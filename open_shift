@@ -104,3 +104,6 @@ oc port-forward pod/my-app-xxxxx 8080:80
    │
    ▼
 [End – אפליקציה רצה, חשופה, עם אחסון וסקיילינג]
+
+
+oc delete project <project-name>
